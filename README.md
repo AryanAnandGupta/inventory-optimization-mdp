@@ -88,3 +88,172 @@ inventory-optimization-mdp/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+```
+
+---
+
+## Notebook Workflow
+
+The notebooks are organized as a sequential modeling pipeline:
+
+| Notebook | Purpose |
+|---|---|
+| `01_data_cleaning.ipynb` | Prepares the demand data for analysis |
+| `02_demand_distribution.ipynb` | Builds the empirical demand distribution |
+| `03_demand_validation.ipynb` | Validates pooled vs. weekday demand modeling |
+| `04_baseline_simulation.ipynb` | Simulates baseline inventory policies |
+| `05_policy_optimization.ipynb` | Runs grid search for optimized static policies |
+| `06_mdp.ipynb` | Formulates and solves the MDP using value iteration |
+| `06b_sensitivity.ipynb` | Tests policy performance under different cost, lead time, and shelf-life assumptions |
+
+---
+
+## Selected Visuals
+
+### Demand Distribution
+
+![Demand PMF](outputs/figures/demand_pmf.png)
+
+The observed demand distribution is right-skewed, which helps explain why simple mean-based ordering can underperform.
+
+---
+
+### Baseline Policy Comparison
+
+![Baseline Fill Rate Comparison](outputs/figures/baseline_fill_rate_comparison.png)
+
+Baseline policies based on mean demand and newsvendor logic provide limited fill-rate performance under the modeled demand setting.
+
+---
+
+### Static Policy Grid Search
+
+![Policy Grid Search](outputs/figures/policy_grid_search.png)
+
+A grid search over static order-up-to policies identifies a much stronger fixed policy than the baseline rules.
+
+---
+
+### MDP Policy Performance
+
+![MDP Comparison](outputs/figures/mdp_comparison.png)
+
+The MDP policy improves expected daily cost relative to the optimized static policy while maintaining a high fill rate.
+
+---
+
+### MDP Policy Structure
+
+![MDP Policy Heatmap](outputs/figures/mdp_policy_heatmap.png)
+
+The MDP policy adapts ordering decisions based on the inventory state instead of using a single fixed order-up-to level.
+
+---
+
+### Sensitivity Analysis
+
+![Sensitivity Cost](outputs/figures/sensitivity_cost.png)
+
+![Sensitivity Lead Time](outputs/figures/sensitivity_leadtime.png)
+
+![Sensitivity Shelf Life](outputs/figures/sensitivity_shelflife.png)
+
+Sensitivity analysis tests how policy performance changes under different cost structures, lead-time assumptions, and shelf-life settings.
+
+---
+
+## Model Comparison Summary
+
+The optimized static policy and MDP policy both dramatically improve over simple baseline rules.
+
+| Policy | Main Idea | Result |
+|---|---|---|
+| Mean policy | Order based on average demand | Low fill rate and high unmet demand |
+| Newsvendor policy | Balance underage and overage costs | Slight improvement over mean policy |
+| Optimized static policy | Search for best fixed order-up-to level | Large improvement in fill rate and cost |
+| MDP policy | Dynamically order based on inventory state | Best overall cost among tested policies |
+
+---
+
+## Sensitivity Analysis Summary
+
+The MDP policy remained competitive across multiple experimental settings.
+
+| Dimension | Tested Scenarios |
+|---|---|
+| Cost structure | Base, high margin, symmetric, expensive waste |
+| Lead time | Deterministic, base, noisier, coin-flip arrival |
+| Shelf life | 2-day, 3-day, and 4-day shelf-life settings |
+
+In most tested scenarios, the MDP policy reduced expected daily cost relative to the optimized static policy.
+
+---
+
+## How to Run
+
+Clone the repository:
+
+```bash
+git clone https://github.com/AryanAnandGupta/inventory-optimization-mdp.git
+cd inventory-optimization-mdp
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Open Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+Run the notebooks in order from `notebooks/01_data_cleaning.ipynb` through `notebooks/06b_sensitivity.ipynb`.
+
+---
+
+## Data Note
+
+The original raw dataset is not included in this repository until redistribution permissions are verified.
+
+Processed project data used for the modeling workflow is included in `data/processed/`.
+
+---
+
+## Project Limitations
+
+This is an academic project and should be interpreted as a modeling and decision-analysis exercise, not as a deployed production inventory system.
+
+Limitations include:
+
+- Results depend on the processed demand data and modeling assumptions.
+- Demand is estimated from historical observations rather than a live forecasting system.
+- Cost parameters are scenario assumptions used for analysis.
+- The MDP is designed for the project setting and is not a general production optimizer.
+
+---
+
+## Skills Demonstrated
+
+- Operations Research
+- Inventory Optimization
+- Supply Chain Analytics
+- Stochastic Modeling
+- Monte Carlo Simulation
+- Markov Decision Processes
+- Value Iteration
+- Python Data Analysis
+- Policy Evaluation
+- Sensitivity Analysis
+- Decision Science Communication
+
+---
+
+## Author
+
+Aryan Anand Gupta  
+M.S. Operations Research, Northeastern University
+
+Project focus: supply chain analytics, inventory optimization, logistics analytics, and applied decision science.
